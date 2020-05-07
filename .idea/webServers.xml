@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b94e58ac-384b-4254-9249-4da3c2e4f900" name="3k-site.tk">
+        <fileTransfer rootFolder="/home/web/www" accessType="SFTP" host="3k-site.tk" port="22" sshConfigId="48f0ee0b-0c32-4b9e-b8d8-54fda300bf26" sshConfig="root@3k-site.tk:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
