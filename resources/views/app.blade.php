@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
+    @yield('styles')
     <title>@yield('title')</title>
   </head>
   <body>
@@ -19,10 +20,12 @@
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Приложение</div>
         <div class="list-group list-group-flush">
-          <a href="{{route('calendar.index')}}" class="list-group-item list-group-item-action bg-light">Календарь<i class="far fa-calendar-alt ml-2"></i></a>
+          <a href="{{route('calendar.index')}}" class="list-group-item list-group-item-action bg-light">Записи<i class="far fa-calendar-alt ml-2"></i></a>
           <a href="{{route('schedule.index')}}" class="list-group-item list-group-item-action bg-light">График <i class="far fa-calendar-plus ml-2"></i></a>
           <a href="{{route('client.index')}}" class="list-group-item list-group-item-action bg-light">Клиенты <i class="fas fa-user-tie ml-2"></i></a>
           <a href="{{route('record.index')}}" class="list-group-item list-group-item-action bg-light">Записать <i class="fas fa-file-medical ml-2"></i></a>
+          <a href="{{route('place.index')}}" class="list-group-item list-group-item-action bg-light">Места</a>
+          
         </div>
       </div>
       <!-- /#sidebar-wrapper -->
@@ -79,6 +82,7 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
       });
+ 
     </script>
     @yield('scripts')
     </body>

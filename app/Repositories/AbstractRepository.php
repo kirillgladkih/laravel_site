@@ -40,6 +40,10 @@ abstract class AbstractRepository
         return $result;
     }
 
-    // abstract function getAll();
+    public function delete($id)
+    {
+        Model::destroy($id);
+    }
+
     abstract function getModelClass();
 }

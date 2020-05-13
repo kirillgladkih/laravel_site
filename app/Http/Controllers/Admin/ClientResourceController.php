@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\DefaultController;
 use App\Repositories\Client\ClientRepository;
-use Illuminate\Http\Request;
+use App\Repositories\Record\RecordRepository;
 
 class ClientResourceController extends DefaultController
 {
@@ -81,8 +82,5 @@ class ClientResourceController extends DefaultController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    
 }

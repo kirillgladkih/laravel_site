@@ -9,7 +9,7 @@ class Hour extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'day_id', 'id', 'hour', 'group_id', 'status'
+        'day_id', 'id', 'hour', 'group_id', 'status', 'count'
     ];
 
     public function group()

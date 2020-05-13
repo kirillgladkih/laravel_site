@@ -13,6 +13,12 @@ class DayRepository extends AbstractRepository
        return Model::class;
    }
 
+   public function __construct()
+   {
+        parent::__construct();
+        setlocale(LC_ALL, 'ru_RU', 'ru_RU.UTF-8', 'ru', 'russian');
+   }
+
    public function getForCalendar()
    {
     
@@ -27,7 +33,7 @@ class DayRepository extends AbstractRepository
 
         $tmp = [];
 
-        setlocale(LC_ALL, 'ru_RU', 'ru_RU.UTF-8', 'ru', 'russian');
+        
         for($i = 0; $i <= 6; $i++){
             $ref  = strftime("%a", strtotime("+$i day"));
             $date = strftime("%d %b %a", strtotime("+$i day"));
@@ -39,5 +45,18 @@ class DayRepository extends AbstractRepository
         }
        
         return $tmp;
+   }
+
+   public function getHours($day, $group)
+   {
+       $day_   = strftime("%a", strtotime($day));
+
+       $day_id = $this->start()->where('day',$day_)
+       ->get()[0]
+       ->hours
+       ->where('status', '1')
+       ->where('group_id', $group);
+
+       return $day_id;
    }
 }

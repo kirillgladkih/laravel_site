@@ -9,6 +9,11 @@ class Record extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'record_date', 'id', 'begin', 'end', 'count_record','child_id'
+        'record_date', 'id', 'record_time', 'child_id'
     ];
+
+    public function child()
+    {
+        return $this->belongsTo(Child::class);
+    }
 }

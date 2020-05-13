@@ -9,7 +9,7 @@ class Procreator extends Model
     public $timestamps = false;
 
     protected $fillable = [
-         'id', 'fio', 'email','phone'
+         'id', 'fio','phone'
     ];
 
     public function children()

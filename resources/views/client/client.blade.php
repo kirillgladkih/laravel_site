@@ -50,10 +50,10 @@
 <table class="table table-bordered table-sm text-center mt-4" style="max-width: 100%; overflow: auto;">
     <thead>
         <th>
-            Фио родителя
+           Родитель
         </th>
         <th>
-            Фио ребенка
+            Ребенок
         </th>
         <th>
            Телефон
@@ -65,8 +65,20 @@
     <tbody>
         @foreach ($clients as $item)
             <tr>
-                <td>{{ $item->child->parent->fio }}</td>
-                <td>{{ $item->child->fio }}</td>
+                <td>
+                    @php
+                        $m = $item->child->parent->fio;
+                        $m = explode(' ', $m);
+                        echo $m[0] . ' ' . substr($m[1],0,2) . '.' . substr($m[2],0,2) . '.' ;
+                    @endphp
+                </td>
+                <td>
+                    @php
+                        $m = $item->child->fio;
+                        $m = explode(' ', $m);
+                        echo $m[0] . ' ' . substr($m[1],0,2) . '.' . substr($m[2],0,2) . '.' ;
+                    @endphp
+                </td>
                 <td>{{ $item->child->parent->phone }}</td>
                 <td>{{ $item->child->age }}</td>
             </tr>

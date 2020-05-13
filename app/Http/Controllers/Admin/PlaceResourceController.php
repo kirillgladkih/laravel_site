@@ -3,29 +3,31 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Client\ChildRepository;
-use App\Repositories\Record\RecordRepository;
-use App\Repositories\Schedule\DayRepository;
+use App\Repositories\Place\PlaceRepository;
 use Illuminate\Http\Request;
 
-class RecordResourceController extends Controller
+class PlaceResourceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(RecordRepository $recordRepository)
+    public function index(PlaceRepository $placeRepository)
     {
-        $parents = $recordRepository->getParent();
+        $places = $placeRepository->getAll();
 
-        return view('record.index', compact('parents'));
+        return view('place.index', compact('places'));
     }
 
-    public function getHour($day, $group, DayRepository $dayRepository)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        $result = $dayRepository->getHours($day, $group);
-        return $result;
+        //
     }
 
     /**
@@ -34,11 +36,9 @@ class RecordResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, RecordRepository $recordRepository)
+    public function store(Request $request)
     {
-        $result = $recordRepository->save($request);
-
-        return response()->json($result);
+        //
     }
 
     /**
@@ -47,11 +47,9 @@ class RecordResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id, ChildRepository $childRepository)
+    public function show($id)
     {
-        $result = $childRepository->getAsParentId($id);
-
-        return $result;
+        //
     }
 
     /**
@@ -83,8 +81,8 @@ class RecordResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy($id, RecordRepository $recordRepository)
-    // {
-    //     $recordRepository->delete($id);
-    // }
+    public function destroy($id)
+    {
+        //
+    }
 }

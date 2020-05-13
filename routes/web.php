@@ -23,13 +23,20 @@ Route::group(['prefix' => 'home/', 'namespace' => 'Admin'], function(){
     Route::resource('schedule','ScheduleResourceController')
     ->names('schedule');
 
-    Route::get('calendar','CalendarController@index')
-    ->name('calendar.index');
+    Route::resource('calendar','CalendarResourceController')
+    ->names('calendar');
 
     Route::resource('client','ClientResourceController')
     ->names('client');
 
     Route::resource('record','RecordResourceController')
     ->names('record');
+    Route::get('record/gethour/{day}/{group}','RecordResourceController@getHour');
 
+    Route::resource('place', 'PlaceResourceController')->names('place');
+
+});
+
+Route::group(['namespace' => 'Api', 'prefix' => 'api'], function(){
+    Route::resource('record','RecordController')->names('api.record');
 });

@@ -17,7 +17,7 @@ class CreateProcreatorsTable extends Migration
             $table->id();
 
             $table->char('fio',100);
-            $table->char('email',100)->default(null);
+           
             $table->char('phone',12);
             
             $table->unique(['fio','phone']);

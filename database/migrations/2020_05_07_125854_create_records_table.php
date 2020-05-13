@@ -17,14 +17,13 @@ class CreateRecordsTable extends Migration
             $table->id();
 
             $table->date('record_date');
-            $table->time('begin');
-            $table->time('end');
-            $table->unsignedTinyInteger('count_record')->default(0);
+            $table->time('record_time');
 
             $table->unsignedBigInteger('child_id');
             
             $table->foreign('child_id')->references('id')
             ->on('children');
+           
         });
     }
 

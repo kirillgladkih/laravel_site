@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHoursTable extends Migration
+class CreatePlacesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateHoursTable extends Migration
      */
     public function up()
     {
-        Schema::create('hours', function (Blueprint $table) {
+        Schema::create('places', function (Blueprint $table) {
             $table->id();
-            $table->time('hour');
-            $table->unsignedBigInteger('day_id');
-            $table->unsignedBigInteger('group_id');
-            $table->boolean('status')->default(false);
 
-            $table->unsignedSmallInteger('count')->default(0);
+            $table->unsignedBigInteger('group_id');
+            $table->unsignedTinyInteger('count')->default(0);
+            
+            $table->date('place_date');
+            $table->time('place_time');
+
+            $table->unsignedTinyInteger('max_count')->default(8);
 
             $table->foreign('group_id')->references('id')->on('groups');
-
-            $table->foreign('day_id')->references('id')->on('days');
-            $table->unique(['hour', 'day_id','group_id']);
+            $table->timestamps();
         });
     }
 
@@ -36,6 +36,6 @@ class CreateHoursTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hours');
+        Schema::dropIfExists('places');
     }
 }

@@ -28,4 +28,10 @@ class HourRepository extends AbstractRepository
 
         return $model;
    }
+
+   public function getConcretHourDay($id, $group)
+   {
+      $result = $this->start()
+      ->where('day_id', $id); 
+   }
 }
