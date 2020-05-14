@@ -2,23 +2,33 @@
 
 namespace App\Repositories\Client;
 
-use App\Repositories\AbstractRepository;
+use App\Models\Child;
+use App\Models\Client;
 
+use App\Models\Procreator;
 use App\Models\Client as Model;
+use App\Repositories\AbstractRepository;
 
 class ClientRepository extends AbstractRepository
 {
-   public function getModelClass()
-   {
-       return Model::class;
-   }
 
-   public function save($data)
-   {
+    private $child;
+    private $procreator;
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->child = new Child();
+        $this->procreator = new Procreator();
+    }
+
+    public function save($data)
+    {
         $childRepository = new ChildRepository();
         $procreatorRepository = new ProcreatorRepository();
 
-        $procreator_id = $procreatorRepository->save($data);
+        $procreator_id =  $procreatorRepository->save($data);
         $child_id      =  $childRepository->save($data, $procreator_id);
 
         $model = new Model();
@@ -27,6 +37,19 @@ class ClientRepository extends AbstractRepository
         $model->client_status = 1;
 
         $model->save();
-   }
+
+        $result = [
+            'code' => 200,
+            'data' => $model
+        ];
+
+        return response()->json($result);
+    }
+ 
+    public function getModelClass()
+    {
+        return Model::class;
+    }
+ 
 
 }

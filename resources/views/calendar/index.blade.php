@@ -8,7 +8,7 @@
 
 @section('content')
 
-<h3 class="text-center title mt-4 mb-4">Дети 4-6 лет</h3>
+<h3 class="text-center title mt-4 mb-4">Выбирете группу</h3>
 
 <div class="form-group">
     <label>Поиск по дате</label>
@@ -40,14 +40,11 @@
         </th>
     </thead>
     <tbody>
+
+      
         @foreach($records as $item)
-            @php 
-                if ($item->child->age <=6)
-                    $group = 1;
-                else 
-                    $group = 2;
-            @endphp
-            <tr class="group-item-{{ $group }}" id="item-{{ $item->id }}">
+           
+            <tr class="group-item-{{ $item->child->group_id }}" id="item-{{ $item->id }}">
                 <td>
                     @php
                         $m = $item->child->parent->fio;
@@ -94,7 +91,7 @@
 
             $('.group-item-2').hide();
 
-            getDate('.group-item-1');
+            
 
             function getDate(group_block){
                 let block = '.search-date';

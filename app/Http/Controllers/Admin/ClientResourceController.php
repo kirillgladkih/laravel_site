@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\DefaultController;
+use App\Http\Requests\Client\ClientSaveRequest;
 use App\Repositories\Client\ClientRepository;
 use App\Repositories\Record\RecordRepository;
 

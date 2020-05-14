@@ -20,10 +20,10 @@
       <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Приложение</div>
         <div class="list-group list-group-flush">
-          <a href="{{route('calendar.index')}}" class="list-group-item list-group-item-action bg-light">Записи<i class="far fa-calendar-alt ml-2"></i></a>
-          <a href="{{route('schedule.index')}}" class="list-group-item list-group-item-action bg-light">График <i class="far fa-calendar-plus ml-2"></i></a>
-          <a href="{{route('client.index')}}" class="list-group-item list-group-item-action bg-light">Клиенты <i class="fas fa-user-tie ml-2"></i></a>
-          <a href="{{route('record.index')}}" class="list-group-item list-group-item-action bg-light">Записать <i class="fas fa-file-medical ml-2"></i></a>
+          <a href="{{route('calendar.index')}}" class="list-group-item list-group-item-action bg-light">Записи</a>
+          <a href="{{route('schedule.index')}}" class="list-group-item list-group-item-action bg-light">График</a>
+          <a href="{{route('client.index')}}" class="list-group-item list-group-item-action bg-light">Клиенты</a>
+          <a href="{{route('record.index')}}" class="list-group-item list-group-item-action bg-light">Записать</a>
           <a href="{{route('place.index')}}" class="list-group-item list-group-item-action bg-light">Места</a>
           
         </div>
@@ -71,9 +71,9 @@
     </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js" integrity="sha256-bd8XIKzrtyJ1O5Sh3Xp3GiuMIzWC42ZekvrMMD4GxRg=" crossorigin="anonymous"></script>
     <!-- Menu Toggle Script -->

@@ -2,9 +2,10 @@
 
 namespace App\Repositories\Schedule;
 
-use App\Repositories\AbstractRepository;
-
 use App\Models\Day as Model;
+
+use Illuminate\Support\Facades\DB;
+use App\Repositories\AbstractRepository;
 
 class DayRepository extends AbstractRepository
 {
@@ -47,11 +48,76 @@ class DayRepository extends AbstractRepository
         return $tmp;
    }
 
+   public function getValidDate($group)
+   {
+        $data = DB::table('days')
+        ->join('hours', 'days.id','=','hours.day_id')
+        ->select('days.id','days.day')
+        ->where('hours.status',1)
+        ->where('group_id', $group)
+        ->distinct()
+        ->get();
+        
+        foreach($data as $item){
+            $day = $item->day;
+            for($i = 0; $i <= 6; $i++){
+                $ref  = strftime("%a", strtotime("+$i day"));
+                $date = strftime("%Y-%m-%d", strtotime("+$i day"));
+                
+                if ($day == $ref) {
+                    $item->date[] = [
+                        $date,
+                        strftime("%Y-%m-%d",strtotime('+7 day', strtotime($date)))
+                    ];
+                }
+            }
+        }
+
+        return $data;
+
+    }
+
+   public function getForApi($group)
+   {
+        $data = DB::table('days')
+        ->join('hours', 'days.id','=','hours.day_id')
+        ->select('days.id','days.day')
+        ->where('hours.status',1)
+        ->where('group_id', $group)
+        ->distinct()
+        ->get();
+    
+       
+
+        foreach($data as $item){
+            $day = $item->day;
+            for($i = 0; $i <= 6; $i++){
+                $ref  = strftime("%a", strtotime("+$i day"));
+                $date = strftime("%Y-%m-%d", strtotime("+$i day"));
+                
+                if ($day == $ref) {
+                    $item->date[] = [
+                        $date,
+                        strftime("%Y-%m-%d",strtotime('+7 day', strtotime($date)))
+                    ];
+                }
+            }
+        }
+
+        $result = [
+            'code' => 200, 
+            'data' => $data
+        ];
+
+        return response()->json($result);
+   }
+
    public function getHours($day, $group)
    {
        $day_   = strftime("%a", strtotime($day));
 
-       $day_id = $this->start()->where('day',$day_)
+       $day_id = $this->start()
+       ->where('day',$day_)
        ->get()[0]
        ->hours
        ->where('status', '1')

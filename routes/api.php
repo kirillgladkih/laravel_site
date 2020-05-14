@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['namespace' => 'Api', 'prefix' => 'api'], function(){
-    Route::resource('record','RecordController');
+
+
+Route::group(['namespace' => 'Api', 'prefix' => ''], function(){
+   
+    Route::get('search/{phone}', 'ApiController@search');
+
+    Route::post('reg', 'ApiController@reg');
+
+    Route::post('record', 'ApiController@record');
+
+    Route::get('getdays/{group}', 'ApiController@getdays');
+
+    Route::get('gethours/{group}/{day}', 'ApiController@gethours');
+    
 });
+

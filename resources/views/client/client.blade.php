@@ -89,8 +89,12 @@
 @section('scripts')
 <script>
     $(document).ready(function(){
-        
+        jQuery.noConflict();
         let url = location.href;
+
+        function initials(str) {
+            return str.split(/\s+/).map((w,i) => i ? w.substring(0,1).toUpperCase() + '.' : w).join(' ');
+        }
 
         $('body').on('click','.save', function(){
             let data = {
@@ -103,7 +107,23 @@
 
             axios.post(url , data)
             .then(function(response){
-                console.log(response);
+                $('#addModal').modal('hide');
+                alert('Успешно');
+
+                let str = '<tr>';
+                
+                data.child_fio  = initials(data.child_fio);
+                data.parent_fio = initials(data.parent_fio);
+
+                $.each(data, function(index, value){
+
+                    str += '<td>' + value + '</td>';
+                });
+
+                str += '</tr>';
+
+                $('tbody').append(str);
+
             }).catch(function(response){
                 console.log(response); 
             })

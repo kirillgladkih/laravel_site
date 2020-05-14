@@ -24,10 +24,39 @@ class ClientSaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'parent_fio' => 'regex:/^[А-Я][а-я]{3,}\s[А-Я][а-я]{3,}\s[А-Я][а-я]{3,}$/u',
-            'child_fio'  => 'regex:/^[А-Я][а-я]{3,}\s[А-Я][а-я]{3,}\s[А-Я][а-я]{3,}$/u',
-            'phone'      => '^regex:/^\+\d{11}$/',
-            'age'        => 'required'
+            'parent_fio' => 'regex:/^[А-Яа-я]{3,}\s[А-Яа-я]{3,}\s[А-Яа-я]{3,}$/u',
+            'child_fio'  => 'regex:/^[А-Яа-я]{3,}\s[А-Яа-я]{3,}\s[А-Яа-я]{3,}$/u',
+            'phone'      => 'regex:/^\+\*d{11}$/',
+            'age'        => 'numeric|min:4|max:14',
+            't'          => 'required'
         ];
     }
+
+    
+
+    public function attributes()
+    {
+        return [
+            'parent_fio' => 'фио родителя',
+            'child_fio'  => 'фио ребенка',
+            'phone'      => 'номер телефона',
+            'age'        => 'возраст ребенка',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'parent_fio.regex' => ':attr введен неверно',
+            'child_fio.regex'  => ':attr введен неверно',
+            'phone.regex'      => ':attr введен неверно',
+            'age'              => ':attr введен неверно',
+        ];
+    }
+
+    public function wantsJson()
+    {
+        return true;
+    }
+  
 }

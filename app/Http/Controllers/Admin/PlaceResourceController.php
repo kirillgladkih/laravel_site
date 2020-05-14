@@ -36,9 +36,11 @@ class PlaceResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, PlaceRepository $placeRepository)
     {
-        //
+        $result = $placeRepository->save($request);
+        
+        return $result; 
     }
 
     /**

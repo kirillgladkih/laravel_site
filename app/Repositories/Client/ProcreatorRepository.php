@@ -24,4 +24,29 @@ class ProcreatorRepository extends AbstractRepository
 
         return $model->id;
    }
+
+   public function saveForApi($data)
+   {
+        $model = $this->start()->create($data);
+
+        return $model->id;
+   }
+
+   public function getModelPhone($phone)
+   {
+        $model = $this->start();
+
+        $model = $model->where('phone', $phone)->first();
+
+      
+            
+        $model = $model->children;
+        $result = [
+            'code' => 200,
+            'data' => $model
+        ];
+        
+
+        return response()->json($result);
+   }
 }

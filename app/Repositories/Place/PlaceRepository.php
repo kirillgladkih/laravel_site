@@ -14,6 +14,15 @@ class PlaceRepository extends AbstractRepository
        return Model::class;
     }
 
+    public function getAll(){
+        $date = date('Y-m-d');
+
+        $result = $this->start()
+        ->where('place_date', '>=', $date)->get();
+
+        return $result;
+    }
+
     public function getGroup($age)
     {
         if($age < 7){
@@ -25,7 +34,7 @@ class PlaceRepository extends AbstractRepository
         return $group;
     }
 
-    public function save($data)
+    public function saveForRecord($data)
     {
         $group = $this->getGroup($data->child->age);
 
@@ -63,6 +72,26 @@ class PlaceRepository extends AbstractRepository
 
         $model->save();
 
+    }
+
+    public function save($data)
+    {
+        $model = $this->start()->where('place_date',$data->place_date)
+        ->where('place_time', $data->place_time)
+        ->where('group_id',$data->group_id)
+        ->first();
+
+        if( ! empty($model)){
+            
+            $model->max_count = $data->max_count;
+            $model = $model->save();
+
+        }else{
+            $model = $this->start();
+            $model->create($data->all());
+        }
+
+        return $model;
     }
 
     public function deleteId($id, $date)

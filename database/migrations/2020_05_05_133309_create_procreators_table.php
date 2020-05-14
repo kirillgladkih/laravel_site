@@ -18,9 +18,8 @@ class CreateProcreatorsTable extends Migration
 
             $table->char('fio',100);
            
-            $table->char('phone',12);
+            $table->char('phone',12)->unique();
             
-            $table->unique(['fio','phone']);
         });
     }
 

@@ -13,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('app');
-});
 
 
 Route::group(['prefix' => 'home/', 'namespace' => 'Admin'], function(){
@@ -37,6 +34,3 @@ Route::group(['prefix' => 'home/', 'namespace' => 'Admin'], function(){
 
 });
 
-Route::group(['namespace' => 'Api', 'prefix' => 'api'], function(){
-    Route::resource('record','RecordController')->names('api.record');
-});

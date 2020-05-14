@@ -9,7 +9,7 @@ class Child extends Model
     public $timestamps = false;
 
     protected $fillable = [
-         'id', 'fio', 'procreator_id', 'age'
+         'id', 'fio', 'procreator_id', 'age', 'group_id'
     ];
 
     public function parent()
