@@ -8,80 +8,88 @@
 
 @section('content')
 
-<h3 class="text-center title mt-4 mb-4">Выбирете группу</h3>
 
-<div class="form-group">
-    <label>Поиск по дате</label>
-    <select class="custom-select col-4 search-date"></select>
+<h3 class="text-center title mt-4 mb-2">Выбирете группу</h3>
+<div class="col-6">
+    <div class="form-row">
+        <div class="col">
+            <label>Поиск по дате</label>
+            <select class="custom-select search-date"></select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="col">
+            <button class="btn btn-primary reset" value=".group-item-1">Сбросить</button>
+        </div>
+    </div>
 </div>
-<div class="form-group">
-    <button class="btn btn-primary reset" value=".group-item-1">Сбросить</button>
-</div>
-
-<table class="table table-bordered table-sm text-center" style="max-width: 100%; overflow: auto;">
-    <thead>
-        <th>
-          Родитель
-        </th>
-        <th>
-            Ребенок
-        </th>
-        <th>
-            Телефон
-        </th>
-        <th>
-            Дата
-        </th>
-        <th>
-            Час
-        </th>
-        <th>
-            Действие
-        </th>
-    </thead>
-    <tbody>
-
-      
-        @foreach($records as $item)
-           
-            <tr class="group-item-{{ $item->child->group_id }}" id="item-{{ $item->id }}">
-                <td>
-                    @php
-                        $m = $item->child->parent->fio;
-                        $m = explode(' ', $m);
-                        echo $m[0] . ' ' . substr($m[1],0,2) . '.' . substr($m[2],0,2) . '.' ;
-                    @endphp
-                </td>
-                <td>
-                    @php
-                        $m = $item->child->fio;
-                        $m = explode(' ', $m);
-                        echo $m[0] . ' ' . substr($m[1],0,2) . '.' . substr($m[2],0,2) . '.' ;
-                    @endphp
-                </td>
-                <td>
-                    {{ $item->child->parent->phone }}
-                </td>
-                <td class="date">
-                    {{ $item->record_date }}
-                </td>
-                <td>
-                    @php
-                        echo preg_replace('/\:00$/', '', $item->record_time);
-                    @endphp
-                </td>
-                <td>
-                    <button class="btn btn-danger del"
-                    value='{{ $item->id }}' data-block="#item-{{ $item->id }}">
-                        -
-                    </button>
-                </td>
+   
+    <table class="table table-borderles table-responsive-sm table-md text-center" width='100%'>
+        <thead>
+            <tr>
+                <th>
+                Родитель
+                </th>
+                <th>
+                    Ребенок
+                </th>
+                <th>
+                    Телефон
+                </th>
+                <th>
+                    Дата
+                </th>
+                <th>
+                    Час
+                </th>
+                <th>
+                    Действие
+                </th>
             </tr>
-        @endforeach
-    </tbody>
-</table> 
+            
+        </thead>
+        <tbody>
 
-    
+            @foreach($records as $item)
+            
+                <tr class="group-item-{{ $item->child->group_id }}" id="item-{{ $item->id }}">
+                    <td>
+                        @php
+                            $m = $item->child->parent->fio;
+                            $m = explode(' ', $m);
+                            echo $m[0] . ' ' . substr($m[1],0,2) . '.' . substr($m[2],0,2) . '.' ;
+                        @endphp
+                    </td>
+                    <td>
+                        @php
+                            $m = $item->child->fio;
+                            $m = explode(' ', $m);
+                            echo $m[0] . ' ' . substr($m[1],0,2) . '.' . substr($m[2],0,2) . '.' ;
+                        @endphp
+                    </td>
+                    <td>
+                        {{ $item->child->parent->phone }}
+                    </td>
+                    <td class="date">
+                        {{ $item->record_date }}
+                    </td>
+                    <td>
+                        @php
+                            echo preg_replace('/\:00$/', '', $item->record_time);
+                        @endphp
+                    </td>
+                    <td>
+                        <button class="btn btn-danger del"
+                        value='{{ $item->id }}' data-block="#item-{{ $item->id }}">
+                        <i class="fas fa-user-times"></i>
+                        </button>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table> 
+
 @endsection
 @section('scripts')
     <script>
@@ -90,8 +98,8 @@
             let url = location.href;
 
             $('.group-item-2').hide();
+            $('.group-item-1').hide();
 
-            
 
             function getDate(group_block){
                 let block = '.search-date';

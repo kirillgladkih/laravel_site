@@ -10,16 +10,17 @@
 
   
   <!-- Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog"  aria-hidden="true">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalScrollableTitle">Добавить клиента</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
+                <div class="alert-danger modal-alert"></div>
                 <form action="#">
                     <div class="form-group">
                         <label for="" class="form-label">Фио родителя</label>
@@ -40,14 +41,14 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">Закрыть</button>
                 <button type="button" class="btn btn-primary save">Сохранить</button>
             </div>
         </div>
     </div>
 </div> 
 
-<table class="table table-bordered table-sm text-center mt-4" style="max-width: 100%; overflow: auto;">
+<table class="table table-borderles table-responsive-sm table-md text-center " width='100%'>
     <thead>
         <th>
            Родитель
@@ -90,11 +91,17 @@
 <script>
     $(document).ready(function(){
         jQuery.noConflict();
+        
         let url = location.href;
 
+       
         function initials(str) {
             return str.split(/\s+/).map((w,i) => i ? w.substring(0,1).toUpperCase() + '.' : w).join(' ');
         }
+
+        $('body').on('click','.close-btn', function(){
+            $('.modal-alert').empty(); 
+        })
 
         $('body').on('click','.save', function(){
             let data = {
@@ -108,6 +115,9 @@
             axios.post(url , data)
             .then(function(response){
                 $('#addModal').modal('hide');
+
+                $('.form-control').val('');
+
                 alert('Успешно');
 
                 let str = '<tr>';
@@ -124,8 +134,23 @@
 
                 $('tbody').append(str);
 
-            }).catch(function(response){
-                console.log(response); 
+            }).catch(function(error){
+
+                $('.modal-alert').empty();
+                
+                let errors = error.response.data.errors;
+
+                let str = '';
+
+                $.each(errors, function(index, value){
+                    $.each(value, function(index, value){
+                        str += '<strong>' + value +'</strong><br>';
+                    });
+                });
+
+                $('.modal-alert').prepend(str);
+
+                console.log(errors); 
             })
         });
     });

@@ -14,8 +14,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::group(['prefix' => 'home/', 'namespace' => 'Admin\Auth', 'middleware' => 'guest:web'], function(){
 
-Route::group(['prefix' => 'home/', 'namespace' => 'Admin'], function(){
+    Route::get('login','AuthController@showLoginForm');
+    
+    Route::post('login', 'AuthController@login')
+    ->name('login');
+
+});
+
+Route::group(['prefix' => 'home/', 'namespace' => 'Admin', 'middleware' => 'auth:web'], function(){
 
     Route::resource('schedule','ScheduleResourceController')
     ->names('schedule');
@@ -32,5 +40,10 @@ Route::group(['prefix' => 'home/', 'namespace' => 'Admin'], function(){
 
     Route::resource('place', 'PlaceResourceController')->names('place');
 
+    Route::get('logout', 'Auth\AuthController@logout')
+    ->name('logout');
+
 });
+
+
 

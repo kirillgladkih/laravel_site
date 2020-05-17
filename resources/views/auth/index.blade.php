@@ -9,37 +9,42 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
-    <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
-    @yield('styles')
+    <style>
+       .login-form{
+            position: fixed; top: 50%; left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+       }
+    </style>
     <title>@yield('title')</title>
   </head>
   <body>
-    <div class="d-flex" id="wrapper">
-
-      <!-- Sidebar -->
-      <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Приложение</div>
-        <div class="list-group list-group-flush">
-          <a href="{{route('calendar.index')}}" class="list-group-item list-group-item-action bg-light">Записи</a>
-          <a href="{{route('schedule.index')}}" class="list-group-item list-group-item-action bg-light">График</a>
-          <a href="{{route('client.index')}}" class="list-group-item list-group-item-action bg-light">Клиенты</a>
-          <a href="{{route('record.index')}}" class="list-group-item list-group-item-action bg-light">Записать</a>
-          {{-- <a href="{{route('place.index')}}" class="list-group-item list-group-item-action bg-light">Места</a> --}}
-          <a href="{{route('logout')}}" class="list-group-item list-group-item-action bg-light">Выход</a>
-        </div>
-      </div>
-      <!-- /#sidebar-wrapper -->
-  
-      <!-- Page Content -->
+    <div class="" id="wrapper">
       <div id="page-content-wrapper">
-  
-        <nav class="navbar  navbar-light bg-light border-bottom">
-          <button class="btn btn-outline-primary" id="menu-toggle">Меню</button>
-          @yield('extend-menu')
-        </nav>
-  
         <div class="container-fluid p-0 pl-3 pr-3">
-          @yield('content')
+            <div class="login-form d-flex justify-content-center col-12 ">
+                  <form method="POST" class="col-8 col-md-6 bg-light" action="{{ route('login') }}">
+                    @csrf
+                    
+                    {{-- <div class="alert-danger col-12 p-2 mt-3">
+                      @foreach ($errors->all() as $value)
+                          <h5 class="text-center">{{ $value }}</h5>
+                      @endforeach
+                    </div>
+                    @endif --}}
+                    <h2 class="text-center pt-3 pb-3" style="color:#66666">Авторизация</h2>
+                    <div class="form-group">
+                      <input type="text" class="form-control p-4"placeholder="телефон" name='phone' value="{{ old('phone') }}" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control p-4" placeholder="пароль" name="password" required>
+                    </div>
+                    <div class="form-group float-right pt-3 ">
+                        <button class="btn btn-primary pl-5 pr-5" style="font-size : 1.2em">Вход</button>
+                    </div>
+                  </form>
+            </div>
         </div>  
       </div>
       <!-- /#page-content-wrapper -->

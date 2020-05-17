@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveRequest extends FormRequest
+class AdminLoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,8 @@ class SaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'm' => 'required'
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'm.required' => 'hui'
+            'phone' => 'required|regex:/^\+?[0-9]{11}$/',
+            'password' => 'required'
         ];
     }
 }

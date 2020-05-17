@@ -28,6 +28,10 @@ class ClientRepository extends AbstractRepository
         $childRepository = new ChildRepository();
         $procreatorRepository = new ProcreatorRepository();
 
+        $res = preg_replace('/^\+*/i','', $data->phone);
+    
+        $data->phone  = preg_replace('/^7/i','8', $res);
+
         $procreator_id =  $procreatorRepository->save($data);
         $child_id      =  $childRepository->save($data, $procreator_id);
 
