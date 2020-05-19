@@ -42,6 +42,8 @@ class ChildRepository extends AbstractRepository
         return $model;
    }
 
+   
+
    public function getAsParentId($id)
    {
        $result = $this->start()->where('procreator_id',$id)->get();

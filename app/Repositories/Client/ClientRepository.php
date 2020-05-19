@@ -7,11 +7,12 @@ use App\Models\Client;
 
 use App\Models\Procreator;
 use App\Models\Client as Model;
+use App\Models\Record;
 use App\Repositories\AbstractRepository;
 
 class ClientRepository extends AbstractRepository
 {
-
+    private $record;
     private $child;
     private $procreator;
 
@@ -19,6 +20,7 @@ class ClientRepository extends AbstractRepository
     {
         parent::__construct();
 
+        $this->record = new Record();
         $this->child = new Child();
         $this->procreator = new Procreator();
     }
@@ -49,11 +51,29 @@ class ClientRepository extends AbstractRepository
 
         return response()->json($result);
     }
- 
+    
     public function getModelClass()
     {
         return Model::class;
     }
- 
+    
+    public function delete($id)
+    {
+        $client = $this->getEdit($id);
+        $child  = $client->child;
+        $procreator = $client->child->parent;
+        $children = $this->child
+        ->where('procreator_id', $procreator->id);
+        
+        $this->record->where('child_id', 
+        $child->id)->delete();
+        
+        $child->delete();
+        $client->delete();
+
+        if(count($children->get()) <= 1)
+            $procreator->delete();
+
+    }
 
 }

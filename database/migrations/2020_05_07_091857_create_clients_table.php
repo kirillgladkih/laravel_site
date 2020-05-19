@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->unsignedBigInteger('child_id')->unique();
             $table->unsignedBigInteger('client_status');
 
-            $table->foreign('child_id')->references('id')->on('children');
+            $table->foreign('child_id')->references('id')->on('children')->onDelete('cascade');
             $table->foreign('client_status')->references('id')->on('statuses');
         });
     }

@@ -32,17 +32,6 @@ class ClientSaveRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'parent_fio.regex' => ':attribute введено неверно',
-            'child_fio.regex'  => ':attribute введено неверно',
-            'phone.regex'      => ':attribute введен неверно',
-            'age'              => '',
-            'phone.unique'     => 'Такой телефон уже есть'
-        ];
-    }
-
     public function attributes()
     {
         return [

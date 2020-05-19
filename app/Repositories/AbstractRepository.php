@@ -42,7 +42,8 @@ abstract class AbstractRepository
 
     public function delete($id)
     {
-        Model::destroy($id);
+        $this->start()->destroy($id);
+       
     }
 
     abstract function getModelClass();

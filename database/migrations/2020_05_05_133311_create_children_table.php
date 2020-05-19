@@ -24,7 +24,7 @@ class CreateChildrenTable extends Migration
 
             $table->unsignedBigInteger('group_id');
 
-            $table->foreign('procreator_id')->references('id')->on('procreators');
+            $table->foreign('procreator_id')->references('id')->on('procreators')->onDelete('cascade');
             
             $table->foreign('group_id')->references('id')->on('groups');
 

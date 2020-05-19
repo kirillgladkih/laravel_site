@@ -33,6 +33,7 @@ Route::group(['prefix' => 'home/', 'namespace' => 'Admin', 'middleware' => 'auth
 
     Route::resource('client','ClientResourceController')
     ->names('client');
+    Route::post('client/child','ClientResourceController@storeChild');
 
     Route::resource('record','RecordResourceController')
     ->names('record');
