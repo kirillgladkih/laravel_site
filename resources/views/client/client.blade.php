@@ -177,8 +177,8 @@
         $('body').on('click','.saveChild', function(){
             let sub_url = url + '/child';
             let data = {
-                'parent_fio' : 
-            }
+                'parent_fio' : 'ff'
+            };
 
             axios.post(sub_url, {hello:'hello'})
             .then(function (res){

@@ -25,10 +25,10 @@ class ClientSaveRequest extends FormRequest
     public function rules()
     {
        return [
-            'parent_fio' => 'regex:/^[А-Яа-я]{3,}\s[А-Яа-я]{3,}\s[А-Яа-я]{3,}$/u|required',
-            'child_fio'  => 'regex:/^[А-Яа-я]{3,}\s[А-Яа-я]{3,}\s[А-Яа-я]{3,}$/u|required',
-            'phone'      => 'unique:procreators|regex:/^\+?[0-9]{11}$/|required',
-            'age'        => 'numeric|min:4|max:14|required',
+            'parent_fio' => 'required|regex:/^[А-Яа-я]{3,}\s[А-Яа-я]{3,}\s[А-Яа-я]{3,}$/u',
+            'child_fio'  => 'required|regex:/^[А-Яа-я]{3,}\s[А-Яа-я]{3,}\s[А-Яа-я]{3,}$/u',
+            'phone'      => 'required|unique:procreators|regex:/^\+?[0-9]{11}$/',
+            'age'        => 'required|numeric|min:4|max:14',
         ];
     }
 
