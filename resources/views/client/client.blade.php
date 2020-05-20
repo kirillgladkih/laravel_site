@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-<!-- Button trigger modal -->
 
   
   <!-- Modal -->
@@ -58,11 +57,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="alert-danger modal-alert"></div>
+                <div class="alert-danger modal-alert-child"></div>
                 <form action="#">
                     <div class="form-group">
                         <label for="" class="form-label">Фио родителя</label>
-                        <select id="parent_fio" class="custom-select">
+                        <select id="procreator-id" class="custom-select">
                             @foreach ($parents as $item)
                                 <option value="{{ $item->id }}">
                                     {{ $item->fio }}
@@ -72,11 +71,11 @@
                     </div>
                     <div class="form-group">
                         <label for="" class="form-label">Фио ребенка</label>
-                        <input type="text" id="child_fio" class="form-control" placeholder="Иванов Иван Иванович">
+                        <input type="text" id="child-fio" class="form-control" placeholder="Иванов Иван Иванович">
                     </div> 
                     <div class="form-group">
                         <label for="" class="form-label">Возраст ребенка</label>
-                        <input type="number" id="age" class="form-control" min="4" max="14">
+                        <input type="number" id="age-child" class="form-control" min="4" max="14">
                     </div>
                 </form>
             </div>
@@ -107,6 +106,9 @@
         <th>
             Возраст
         </th>
+        <th>
+            Удл./Ред.
+        </th>
     </thead>
     <tbody>
         @foreach ($clients as $item)
@@ -133,6 +135,13 @@
                     value='{{ $item->id }}' data-block="#item-{{ $item->id }}">
                     <i class="fas fa-user-times"></i>
                     </button>
+                    <button class="btn btn-outline-primary m-0 edit" data-id="{{ $item->id }}" data-child="{{ $item->child->fio }}"
+                    data-parent="{{  $item->child->parent->fio }}"    
+                    data-phone = "{{ $item->child->parent->phone }}"
+                    data-age="{{ $item->child->age }}"
+                    data-child_id="{{ $item->child->id }}"
+                    data-parent_id="{{ $item->child->parent->id }}"
+                    ><i class="far fa-edit"></i></button>
                 </td>
             </tr>
         @endforeach
@@ -146,19 +155,12 @@
         
         let url = location.href;
 
-       
+        //Инициалы
         function initials(str) {
             return str.split(/\s+/).map((w,i) => i ? w.substring(0,1).toUpperCase() + '.' : w).join(' ');
         }
         
-        $('body').on('click','#add-client', function(){
-            $('.modal-alert').empty(); 
-        })
-
-        $('body').on('click','.close-btn', function(){
-            $('.modal-alert').empty(); 
-        })
-
+        // Удаление клиента
         $('body').on('click','.del', function(){
 
             let id = $(this).val();
@@ -174,28 +176,74 @@
             })
         });
 
+        $('body').on('click','#add-client', function(){
+            $('.save').attr('data-action', 'save');
+            console.log( $('.save'));
+        });
+
+        //Редактирование
+        $('body').on('click','.edit', function(){
+            let obj  = $(this)[0].dataset;
+
+            $('.save').attr('data-action', 'edit');
+            $('.save').attr('data-client_id', obj.id);
+
+            $('#parent_fio').val(obj.parent);
+            $('#child_fio').val(obj.child);
+            $('#phone').val(obj.phone);
+            $('#age').val(obj.age);
+
+            $('#addClient').modal('show');
+          
+        });
+
+        //Добавить ребенка
         $('body').on('click','.saveChild', function(){
             let sub_url = url + '/child';
             let data = {
-                'parent_fio' : 'ff'
+                'procreator_id' : $('#procreator-id').val(),
+                'fio' : $('#child-fio').val(),
+                'age'       : $('#age-child').val()
             };
 
-            axios.post(sub_url, {hello:'hello'})
+            console.log(data);
+
+            axios.post(sub_url, data)
             .then(function (res){
-                console.log(res);
-            })
+                
+                $('.form-control').val('');
+
+                alert('Успешно');
+
+                location.reload();
+            }).catch(function(error){
+
+            $('.modal-alert-child').empty();
+
+            let errors = error.response.data.errors;
+
+            let str = '';
+
+           
+
+            $.each(errors, function(index, value){
+                str += '<strong>' + value[0] +'</strong><br>';
+            });
+
+            $('.modal-alert-child').prepend(str);
+               
+            });
+
+
+
         });
 
-        $('body').on('click','.save', function(){
-            let data = {
-                'parent_fio' : $('#parent_fio').val(),
-                'child_fio'  : $('#child_fio').val(),
-                'phone'      : $('#phone').val(),
-                'age'        : $('#age').val(),
+        function saveForEdit(data, id)
+        {
+            let Url = url + '/' + id;
+           
 
-            };
-
-            axios.post(url , data)
+            axios.put(Url , data)
             .then(function(response){
                 $('#addModal').modal('hide');
 
@@ -213,7 +261,7 @@
 
                 let str = '';
 
-                console.log(errors);
+               
 
                 $.each(errors, function(index, value){
                     str += '<strong>' + value[0] +'</strong><br>';
@@ -221,8 +269,62 @@
 
                 $('.modal-alert').prepend(str);
 
-                console.log(errors); 
+               
             })
+        }
+
+        //Добавить клиента
+        $('body').on('click','.save', function(){
+
+            let action = $(this)[0].dataset.action;
+            
+
+            let data = {
+                'parent_fio' : $('#parent_fio').val(),
+                'child_fio'  : $('#child_fio').val(),
+                'phone'      : $('#phone').val(),
+                'age'        : $('#age').val(),
+
+            };
+
+            if(action == 'save'){
+                axios.post(url , data)
+                .then(function(response){
+                    $('#addModal').modal('hide');
+
+                    $('.form-control').val('');
+
+                    alert('Успешно');
+
+                    location.reload();
+
+                }).catch(function(error){
+
+                    $('.modal-alert').empty();
+                    
+                    let errors = error.response.data.errors;
+
+                    let str = '';
+
+                    console.log(errors);
+
+                    $.each(errors, function(index, value){
+                        str += '<strong>' + value[0] +'</strong><br>';
+                    });
+
+                    $('.modal-alert').prepend(str);
+
+                    console.log(errors); 
+                })
+            }else{
+                let id = $(this)[0].dataset.client_id;
+
+                console.log($(this));
+
+                saveForEdit(data, id);
+
+                return false;
+            } 
         });
     });
 </script>

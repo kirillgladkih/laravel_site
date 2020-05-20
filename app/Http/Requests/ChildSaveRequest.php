@@ -4,9 +4,8 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ClientSaveRequest extends FormRequest
+class ChildSaveRequest extends FormRequest
 {
-    
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -25,20 +24,19 @@ class ClientSaveRequest extends FormRequest
     public function rules()
     {
        return [
-            'parent_fio' => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}$/u',
-            'child_fio'  => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}$/u',
-            'phone'      => 'required|unique:procreators|regex:/^\+?[0-9]{11}$/',
-            'age'        => 'required|numeric|min:4|max:14',
+            'procreator_id' => 'required|numeric',
+            'fio'           => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}$/u',
+            'age'           => 'required|numeric|min:4|max:14',
         ];
     }
 
     public function attributes()
     {
         return [
-            'parent_fio' => 'фио родителя',
-            'child_fio'  => 'фио ребенка',
+            'fio'  => 'фио ребенка',
             'phone'      => 'номер телефона',
             'age'        => 'возраст ребенка',
         ];
     }
+
 }

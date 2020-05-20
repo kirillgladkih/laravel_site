@@ -24,11 +24,10 @@ class CreateChildrenTable extends Migration
 
             $table->unsignedBigInteger('group_id');
 
-            $table->foreign('procreator_id')->references('id')->on('procreators')->onDelete('cascade');
+            $table->foreign('procreator_id')->references('id')->on('procreators');
             
             $table->foreign('group_id')->references('id')->on('groups');
 
-            $table->unique(['fio','procreator_id']);
         });
     }
 

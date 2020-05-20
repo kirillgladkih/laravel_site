@@ -24,7 +24,7 @@ class CreatePlacesTable extends Migration
 
             $table->unsignedTinyInteger('max_count')->default(8);
 
-            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            $table->foreign('group_id')->references('id')->on('groups');
             $table->timestamps();
         });
     }

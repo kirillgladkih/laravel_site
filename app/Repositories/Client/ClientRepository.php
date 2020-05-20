@@ -59,20 +59,38 @@ class ClientRepository extends AbstractRepository
     
     public function delete($id)
     {
-        $client = $this->getEdit($id);
-        $child  = $client->child;
-        $procreator = $client->child->parent;
-        $children = $this->child
-        ->where('procreator_id', $procreator->id);
-        
-        $this->record->where('child_id', 
-        $child->id)->delete();
-        
-        $child->delete();
-        $client->delete();
+        $client     = $this->start()->find($id);
+        $child      = $this->child->find($client->child_id);
+        $record     = $this->record->where('child_id', $child->id);
+        $procreator = $this->procreator->find($child->procreator_id);
+        $children   = $this->child->where('procreator_id', $procreator->id);
 
-        if(count($children->get()) <= 1)
+        $record->delete();
+        $client->delete();
+        $child->delete();
+
+        if(count($children->get()) < 1){
             $procreator->delete();
+        }
+
+    }
+
+    public function edit($id, $request)
+    {
+        $client     = $this->start()->find($id);
+        
+        $child      = $this->child->find($client->child_id);
+        $procreator = $this->procreator->find($child->procreator_id);
+
+        $procreator->update([
+            'fio' => $request->parent_fio,
+            'phone' => $request->phone
+        ]);
+
+        $child->update([
+            'fio' => $request->child_fio,
+            'age' => $request->age
+        ]);
 
     }
 

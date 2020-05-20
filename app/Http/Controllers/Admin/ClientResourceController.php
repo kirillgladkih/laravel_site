@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\DefaultController;
+use App\Http\Requests\ChildSaveRequest;
 use App\Http\Requests\ClientSaveRequest;
+use App\Http\Requests\ClientUpdateRequest;
+use App\Models\Client;
+use App\Repositories\Client\ChildRepository;
 use App\Repositories\Client\ClientRepository;
 use App\Repositories\Client\ProcreatorRepository;
-use App\Repositories\Record\RecordRepository;
+use Illuminate\Support\Facades\Validator;
+
+use Illuminate\Validation\Rule;
 
 class ClientResourceController extends DefaultController
 {
@@ -43,9 +48,22 @@ class ClientResourceController extends DefaultController
         return response()->json($model);
     }
 
-    public function storeChild(Request $request)
+    public function storeChild(ChildSaveRequest $request, ChildRepository $repository)
     {
-        return response()->json($request->all());
+        $repository->saveForAddChild($request);
     }
     
+    public function update($id,ClientUpdateRequest $request, ClientRepository $repository)
+    {   
+        $client = new Client();
+        $id_ = $client->find($id)->child->parent->id;
+
+        Validator::make($request->all(), [
+            'phone' => [
+                Rule::unique('procreators')->ignore($id_)
+            ],
+        ]);
+
+        $repository->edit($id, $request);
+    }
 }
