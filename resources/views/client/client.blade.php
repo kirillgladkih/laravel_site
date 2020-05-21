@@ -88,7 +88,6 @@
 </div>
 
 <h1 class="text-center mt-4 mb-4">Клиенты</h1>
-
 <table class="table table-borderles table-responsive-sm table-md text-center" width='100%'>
     <thead>
         <th>
@@ -113,7 +112,7 @@
     <tbody>
         @foreach ($clients as $item)
             <tr>
-                <td><a href="">{{ $item->id }}</a></td>
+                <td>{{ $item->id }}</td>
                 <td>
                     @php
                         $m = $item->child->parent->fio;
@@ -130,8 +129,8 @@
                 </td>
                 <td>{{ $item->child->parent->phone }}</td>
                 <td width='20px'>{{ $item->child->age }}</td>
-                <td>
-                    <button class="btn btn-outline-danger del"
+                <td width='150px' style="padding: 13px 0 0 0">
+                    <button class="btn btn-outline-danger del pr-2"
                     value='{{ $item->id }}' data-block="#item-{{ $item->id }}">
                     <i class="fas fa-user-times"></i>
                     </button>
@@ -178,12 +177,15 @@
 
         $('body').on('click','#add-client', function(){
             $('.save').attr('data-action', 'save');
+            $('.modal-title').text('Добавить клиента');
             console.log( $('.save'));
         });
 
         //Редактирование
         $('body').on('click','.edit', function(){
             let obj  = $(this)[0].dataset;
+
+            $('.modal-title').text('Редактировать клиента');
 
             $('.save').attr('data-action', 'edit');
             $('.save').attr('data-client_id', obj.id);
@@ -306,7 +308,7 @@
 
                     let str = '';
 
-                    console.log(errors);
+                  
 
                     $.each(errors, function(index, value){
                         str += '<strong>' + value[0] +'</strong><br>';
@@ -314,7 +316,7 @@
 
                     $('.modal-alert').prepend(str);
 
-                    console.log(errors); 
+                    
                 })
             }else{
                 let id = $(this)[0].dataset.client_id;

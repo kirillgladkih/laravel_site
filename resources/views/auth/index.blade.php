@@ -24,7 +24,7 @@
       <div id="page-content-wrapper">
         <div class="container-fluid p-0 pl-3 pr-3">
             <div class="login-form d-flex justify-content-center col-12 ">
-                  <form method="POST" class="col-8 col-md-6 bg-light" action="{{ route('login') }}">
+                  <form method="POST" class="col-12 col-md-6 bg-light" action="{{ route('login') }}">
                     @csrf
                     
                     {{-- <div class="alert-danger col-12 p-2 mt-3">

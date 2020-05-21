@@ -122,7 +122,7 @@
                 let date = $(this).val();
                 let age  = $('.child-select option:selected')[0].dataset.age;
                 let group = 0;
-   
+                
                 if(age > 6){
                     group = 2;
                 }else 
@@ -138,7 +138,7 @@
                         +value.hour.replace(/\:00$/g,'') +
                         "</option>";
                     })
-                 
+                    $('.begin-select').empty();
                     $('.begin-select').append(tmp);
                     
                     resetTime();
@@ -242,8 +242,13 @@
                             alert("Успешно");
                         })
                         .catch(function(response){
-                            console.log(response);
-                            alert("Произошла ошибка");
+                            let err = response.response.data.errors;
+                            let str = '';
+
+                            $.each(err, function(index, value){
+                                str += value + "\n ";
+                            })
+                            alert(str);
                         })                   
                }
             });

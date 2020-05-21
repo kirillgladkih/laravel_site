@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Repositories\Client\ChildRepository;
-use App\Repositories\Record\RecordRepository;
-use App\Repositories\Schedule\DayRepository;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RecordSaveRequest;
+use App\Repositories\Client\ChildRepository;
+use App\Repositories\Schedule\DayRepository;
+use App\Repositories\Record\RecordRepository;
 
 class RecordResourceController extends Controller
 {
@@ -34,7 +35,7 @@ class RecordResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, RecordRepository $recordRepository)
+    public function store(RecordSaveRequest $request, RecordRepository $recordRepository)
     {
         $result = $recordRepository->save($request);
 

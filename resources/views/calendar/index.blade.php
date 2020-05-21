@@ -29,6 +29,9 @@
         <thead>
             <tr>
                 <th>
+                    #
+                </th>
+                <th>
                 Родитель
                 </th>
                 <th>
@@ -44,16 +47,17 @@
                     Час
                 </th>
                 <th>
-                    Действие
+                  Удл.
                 </th>
             </tr>
-            
         </thead>
         <tbody>
-
+            @php $i = 0; @endphp
             @foreach($records as $item)
-            
                 <tr class="group-item-{{ $item->child->group_id }}" id="item-{{ $item->id }}">
+                    <td>
+                        {{ ++$i }}
+                    </td>
                     <td>
                         @php
                             $m = $item->child->parent->fio;
