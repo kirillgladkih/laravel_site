@@ -18,8 +18,13 @@ class CreateProcreatorsTable extends Migration
 
             $table->char('fio',100);
            
+            $table->string('viber')->nullable()->unique();
+            $table->string('vk')->nullable()->unique();
+
             $table->char('phone',12)->unique();
             
+            
+
         });
     }
 

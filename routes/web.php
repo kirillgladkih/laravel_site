@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get('', function(){
+    return redirect('home/calendar');
+});
+
 Route::group(['prefix' => 'home/', 'namespace' => 'Admin\Auth', 'middleware' => 'guest:web'], function(){
 
     Route::get('login','AuthController@showLoginForm');

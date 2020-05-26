@@ -38,7 +38,7 @@ class ClientResourceController extends DefaultController
     public function store(ClientSaveRequest $request, 
     ClientRepository $clientRepository)
     {
-        $clientRepository->save($request);
+        return $clientRepository->save($request);
     }
     
     public function destroy($id, ClientRepository $repository){
@@ -58,11 +58,14 @@ class ClientResourceController extends DefaultController
         $client = new Client();
         $id_ = $client->find($id)->child->parent->id;
 
-        Validator::make($request->all(), [
+        $Validator = Validator::make($request->all(), [
             'phone' => [
                 Rule::unique('procreators')->ignore($id_)
             ],
         ]);
+
+        if($Validator->fails())
+            return response()->json(['errors' => $Validator->errors()], 422);
 
         $repository->edit($id, $request);
     }

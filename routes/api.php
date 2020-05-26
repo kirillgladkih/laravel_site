@@ -27,6 +27,10 @@ Route::group(['namespace' => 'Api', 'prefix' => ''], function(){
     Route::get('getdays/{group}', 'ApiController@getdays');
 
     Route::get('gethours/{group}/{day}', 'ApiController@gethours');
-    
+
+    Route::group(['namespace' => 'Social' ,'prefix' => 'social'], function(){
+        Route::get('{client}/{id}', 'ApiSocialController@getSocial');
+        Route::post('', 'ApiSocialController@setSocial');
+    });   
 });
 

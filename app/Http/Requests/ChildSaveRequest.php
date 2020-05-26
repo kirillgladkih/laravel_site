@@ -25,7 +25,7 @@ class ChildSaveRequest extends FormRequest
     {
        return [
             'procreator_id' => 'required|numeric',
-            'fio'           => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}$/u',
+            'fio'           => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{2,}\s[А-Яёа-яё]{3,}$/u',
             'age'           => 'required|numeric|min:4|max:14',
         ];
     }

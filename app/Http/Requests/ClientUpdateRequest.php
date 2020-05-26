@@ -14,8 +14,8 @@ class ClientUpdateRequest extends FormRequest
     public function rules()
     {
        return [
-            'parent_fio' => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}$/u',
-            'child_fio'  => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}\s[А-Яёа-яё]{3,}$/u',
+            'parent_fio' => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{2,}\s[А-Яёа-яё]{3,}$/u',
+            'child_fio'  => 'required|regex:/^[А-Яёа-яё]{3,}\s[А-Яёа-яё]{2,}\s[А-Яёа-яё]{3,}$/u',
             'phone'      => 'required|regex:/^\+?[0-9]{11}$/',
             'age'        => 'required|numeric|min:4|max:14',
         ];

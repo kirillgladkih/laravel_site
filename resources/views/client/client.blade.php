@@ -110,9 +110,12 @@
         </th>
     </thead>
     <tbody>
+        @php
+            $i = 0;
+        @endphp
         @foreach ($clients as $item)
             <tr>
-                <td>{{ $item->id }}</td>
+                <td>{{ ++$i }}</td>
                 <td>
                     @php
                         $m = $item->child->parent->fio;
@@ -279,12 +282,15 @@
         $('body').on('click','.save', function(){
 
             let action = $(this)[0].dataset.action;
-            
+            let phone  =  $('#phone').val();
+
+            phone = phone.replace(/^\+*/i,'');
+            phone = phone.replace(/^7/i,'8');
 
             let data = {
                 'parent_fio' : $('#parent_fio').val(),
                 'child_fio'  : $('#child_fio').val(),
-                'phone'      : $('#phone').val(),
+                'phone'      :  phone,
                 'age'        : $('#age').val(),
 
             };
