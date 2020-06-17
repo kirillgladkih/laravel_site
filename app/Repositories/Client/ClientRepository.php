@@ -37,7 +37,6 @@ class ClientRepository extends AbstractRepository
         $model = new Model();
 
         $model->child_id = $child_id;
-        $model->client_status = 1;
 
         $model->save();
 
@@ -48,12 +47,12 @@ class ClientRepository extends AbstractRepository
 
         return response()->json($result);
     }
-    
+
     public function getModelClass()
     {
         return Model::class;
     }
-    
+
     public function delete($id)
     {
         $client     = $this->start()->find($id);
@@ -75,7 +74,7 @@ class ClientRepository extends AbstractRepository
     public function edit($id, $request)
     {
         $client     = $this->start()->find($id);
-        
+
         $child      = $this->child->find($client->child_id);
         $procreator = $this->procreator->find($child->procreator_id);
 

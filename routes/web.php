@@ -21,7 +21,7 @@ Route::get('', function(){
 Route::group(['prefix' => 'home/', 'namespace' => 'Admin\Auth', 'middleware' => 'guest:web'], function(){
 
     Route::get('login','AuthController@showLoginForm');
-    
+
     Route::post('login', 'AuthController@login')
     ->name('login');
 
@@ -42,6 +42,10 @@ Route::group(['prefix' => 'home/', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::resource('record','RecordResourceController')
     ->names('record');
     Route::get('record/gethour/{day}/{group}','RecordResourceController@getHour');
+
+    Route::resource('closed','ClosedResourceController')
+    ->names('closed');
+
 
     Route::resource('place', 'PlaceResourceController')->names('place');
 

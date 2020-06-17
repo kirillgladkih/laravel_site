@@ -15,7 +15,7 @@ class AuthController extends Controller
     {
         return view('auth.index');
     }
-    
+
     public function login(AdminLoginRequest $request)
     {
         $data = ['phone' => $request->phone,
@@ -25,8 +25,8 @@ class AuthController extends Controller
 
         if($need)
             return redirect()->route('calendar.index');
-        
-            return redirect()->back()->withInput($request->only('phone', 'remember'));
+
+            return redirect()->back()->withInput($request->only('phone', 'remember'))->withErrors(['Номер телефона или пароль были введены неверно, попробуйте сновва!']);
     }
 
     public function logout()

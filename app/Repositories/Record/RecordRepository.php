@@ -32,7 +32,7 @@ class RecordRepository extends AbstractRepository
 
     public function getParent()
     {
-        $procreatorRepository = new ProcreatorRepository(); 
+        $procreatorRepository = new ProcreatorRepository();
 
         $result = $procreatorRepository->getAll();
 
@@ -54,15 +54,15 @@ class RecordRepository extends AbstractRepository
                     'record_time' => $value,
                     'child_id' => $data->child_id,
                     'record_date' => $data->record_date];
-            
+
                 $result = Model::create($data_);
-                
+
                 $this->place->saveForRecord($result);
             }
-       
+
 
             return $result;
-        
+
     }
 
     public function validDate($date, $group)
@@ -111,14 +111,14 @@ class RecordRepository extends AbstractRepository
         ]);
 
         if(in_array($data->begin, $tmp) && in_array($data->end, $tmp)){
-            
-           
+
+
 
             $begin_ = (int) preg_replace('/\:00\:00$/','', $data->begin);
             $end_   = (int) preg_replace('/\:00\:00$/','', $data->end);
 
             $index = array_search($begin_, $tmp1);
-            
+
             $endIndex = array_search($end_, $tmp1);
 
             if($begin_ > $end_)
@@ -127,7 +127,7 @@ class RecordRepository extends AbstractRepository
             }
 
             for($i = $index; $i <= $endIndex; $i++){
-                
+
                 if($begin_ == $tmp1[$i]){
                     $begin_++;
                 }else{
@@ -154,24 +154,42 @@ class RecordRepository extends AbstractRepository
         $tmp2 = [];
 
         for($i = $begin_; $i<= $end_; $i++){
-            
+
             $time = $i.':00:00';
 
             $data_ = [
                 'record_time' => $time,
                 'child_id' => $data->child_id,
                 'record_date' => $data->date];
-            
+
             $result = Model::create($data_);
             $tmp2[] = $result;
             $this->place->saveForRecord($result);
-        }       
-        
+        }
+
         return response()->json([
             'code' => 200,
             'data' => $model
         ]) ;
 
+    }
+
+    public function checkForClosed($id, $value)
+    {
+        $record = $this->getEdit($id);
+
+        $client = $record->child->client;
+
+        if($value == '1'){
+            $client->count_hour += 1;
+            $client->last_record = $record->record_date;
+        }else{
+            $client->discount_hour += 1;
+        }
+
+        $client->save();
+
+        $this->delete($id);
     }
 
     public function getAll()
@@ -188,6 +206,6 @@ class RecordRepository extends AbstractRepository
         $this->place->minus($model);
 
         $model->delete();
-        
+
     }
 }

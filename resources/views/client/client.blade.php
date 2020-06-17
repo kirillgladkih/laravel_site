@@ -3,11 +3,20 @@
 @section('title')Клиенты@endsection
 @section('extend-menu')
     @include('layouts.menu.extend-client')
+    <button class="btn btn-outline-primary" type="button"
+    data-toggle="collapse"
+    data-target="#filters"
+    aria-expanded="false"
+    aria-controls="filters">
+        <i class="fas fa-filter"></i>
+
+    </button>
+</div>
 @endsection
 
 @section('content')
 
-  
+
   <!-- Modal -->
 <div class="modal fade" id="addClient" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -45,13 +54,13 @@
             </div>
         </div>
     </div>
-</div> 
+</div>
 
 <div class="modal fade" id="addChild" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Добавить ребенка</h5>
+                <h5 class="modal-title-child" id="exampleModalScrollableTitle">Добавить ребенка</h5>
                 <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
@@ -72,7 +81,7 @@
                     <div class="form-group">
                         <label for="" class="form-label">Фио ребенка</label>
                         <input type="text" id="child-fio" class="form-control" placeholder="Иванов Иван Иванович">
-                    </div> 
+                    </div>
                     <div class="form-group">
                         <label for="" class="form-label">Возраст ребенка</label>
                         <input type="number" id="age-child" class="form-control" min="4" max="14">
@@ -87,12 +96,25 @@
     </div>
 </div>
 
-<h1 class="text-center mt-4 mb-4">Клиенты</h1>
+<h3 class="text-center mt-4 mb-4">Клиенты</h3>
+
+<div class="col-12 mb-3 collapse" id="filters">
+    <div class="form-row">
+        <div class="col">
+            <label>Поиск по таблицe</label>
+            <input type="text" class="form-control" id="search">
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="col">
+            <button class="btn btn-primary reset-filter float-right">Сбросить</button>
+        </div>
+    </div>
+</div>
+
+
 <table class="table table-borderles table-responsive-sm table-md text-center" width='100%'>
     <thead>
-        <th>
-            #
-        </th>
         <th>
            Родитель
         </th>
@@ -106,16 +128,23 @@
             Возраст
         </th>
         <th>
+            Часы
+        </th>
+        <th>
+            Пропуски
+        </th>
+        <th>
+            Был
+        </th>
+        <th>
             Удл./Ред.
         </th>
     </thead>
     <tbody>
-        @php
-            $i = 0;
-        @endphp
+
         @foreach ($clients as $item)
+
             <tr>
-                <td>{{ ++$i }}</td>
                 <td>
                     @php
                         $m = $item->child->parent->fio;
@@ -132,13 +161,18 @@
                 </td>
                 <td>{{ $item->child->parent->phone }}</td>
                 <td width='20px'>{{ $item->child->age }}</td>
+                <td>{{$item->count_hour}}</td>
+                <td>{{$item->discount_hour}}</td>
+                <td>
+                    {{ $item->last_record == null ? '-' : $item->last_record }}
+                </td>
                 <td width='150px' style="padding: 13px 0 0 0">
                     <button class="btn btn-outline-danger del pr-2"
                     value='{{ $item->id }}' data-block="#item-{{ $item->id }}">
                     <i class="fas fa-user-times"></i>
                     </button>
                     <button class="btn btn-outline-primary m-0 edit" data-id="{{ $item->id }}" data-child="{{ $item->child->fio }}"
-                    data-parent="{{  $item->child->parent->fio }}"    
+                    data-parent="{{  $item->child->parent->fio }}"
                     data-phone = "{{ $item->child->parent->phone }}"
                     data-age="{{ $item->child->age }}"
                     data-child_id="{{ $item->child->id }}"
@@ -154,14 +188,14 @@
 <script>
     $(document).ready(function(){
         jQuery.noConflict();
-        
+
         let url = location.href;
 
         //Инициалы
         function initials(str) {
             return str.split(/\s+/).map((w,i) => i ? w.substring(0,1).toUpperCase() + '.' : w).join(' ');
         }
-        
+
         // Удаление клиента
         $('body').on('click','.del', function(){
 
@@ -169,12 +203,12 @@
 
             if(confirm('Удалить?'))
                 axios.delete(url + '/' + id).then(function(response){
-                
+
                 alert('Успешно');
-                
+
                 location.reload();
-                
-             
+
+
             })
         });
 
@@ -199,7 +233,7 @@
             $('#age').val(obj.age);
 
             $('#addClient').modal('show');
-          
+
         });
 
         //Добавить ребенка
@@ -215,7 +249,7 @@
 
             axios.post(sub_url, data)
             .then(function (res){
-                
+
                 $('.form-control').val('');
 
                 alert('Успешно');
@@ -229,14 +263,14 @@
 
             let str = '';
 
-           
+
 
             $.each(errors, function(index, value){
                 str += '<strong>' + value[0] +'</strong><br>';
             });
 
             $('.modal-alert-child').prepend(str);
-               
+
             });
 
 
@@ -246,7 +280,7 @@
         function saveForEdit(data, id)
         {
             let Url = url + '/' + id;
-           
+
 
             axios.put(Url , data)
             .then(function(response){
@@ -261,12 +295,12 @@
             }).catch(function(error){
 
                 $('.modal-alert').empty();
-                
+
                 let errors = error.response.data.errors;
 
                 let str = '';
 
-               
+
 
                 $.each(errors, function(index, value){
                     str += '<strong>' + value[0] +'</strong><br>';
@@ -274,7 +308,7 @@
 
                 $('.modal-alert').prepend(str);
 
-               
+
             })
         }
 
@@ -309,12 +343,12 @@
                 }).catch(function(error){
 
                     $('.modal-alert').empty();
-                    
+
                     let errors = error.response.data.errors;
 
                     let str = '';
 
-                  
+
 
                     $.each(errors, function(index, value){
                         str += '<strong>' + value[0] +'</strong><br>';
@@ -322,7 +356,7 @@
 
                     $('.modal-alert').prepend(str);
 
-                    
+
                 })
             }else{
                 let id = $(this)[0].dataset.client_id;
@@ -332,8 +366,27 @@
                 saveForEdit(data, id);
 
                 return false;
-            } 
+            }
         });
+
+        $("#search").on("keyup", function() {
+
+            var value = $(this).val().toLowerCase();
+
+            $("tbody tr").filter(function() {
+                ref = $(this).text().toLowerCase();
+
+                ref.indexOf(value) > -1 ?
+                    $(this).show() : $(this).hide()
+            });
+
+        });
+
+        $('body').on('click','.reset-filter', function(){
+            $("#search").val('');
+            $('tbody tr').show(500)
+        });
+
     });
 </script>
 @endsection

@@ -9,11 +9,16 @@ class Child extends Model
     public $timestamps = false;
 
     protected $fillable = [
-         'id', 'fio', 'procreator_id', 'age', 'group_id'
+        'fio', 'procreator_id', 'age', 'group_id'
     ];
 
     public function parent()
     {
         return $this->belongsTo(Procreator::class,'procreator_id');
+    }
+
+    public function client()
+    {
+        return $this->hasOne(Client::class);
     }
 }

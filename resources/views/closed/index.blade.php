@@ -4,14 +4,16 @@
 
 @section('extend-menu')
     @include('layouts.menu.extend')
-    <button class="btn btn-outline-primary" type="button"
+    <button class="btn btn-outline-primary mr-2" id='fil' type="button"
     data-toggle="collapse"
     data-target="#filters"
     aria-expanded="false"
-    aria-controls="filters">
+    aria-controls="filters"
+     disabled>
         <i class="fas fa-filter"></i>
 
     </button>
+
 </div>
 @endsection
 
@@ -71,14 +73,14 @@
                     Час
                 </th>
                 <th>
-                  Удл.
+                  Явка
                 </th>
             </tr>
         </thead>
         <tbody>
-            @php $i = 0; @endphp
+
             @foreach($records as $item)
-                <tr class="group-item-{{ $item->child->group_id }}" id="item-{{ $item->id }}" style="display: none">
+                <tr class="group group-item-{{ $item->child->group_id }}" id="item-{{ $item->id }}" >
 
                     <td>
                         @php
@@ -106,27 +108,43 @@
                         @endphp
                     </td>
                     <td>
-                        <button class="btn btn-danger del"
-                        value='{{ $item->id }}' data-block="#item-{{ $item->id }}">
-                        <i class="fas fa-user-times"></i>
-                        </button>
+                      <select class="check" class="custom-select"
+                      data-client="{{$item->id}}"
+                      data-block="#item-{{ $item->id }}">
+                          <option value="0">
+                            Не пришел
+                          </option>
+                          <option value="1">
+                            Пришел
+                          </option>
+                      </select>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
+@endsection
+@section('styles')
+    <style>
+        .group{
+            display: none;
+        }
+    </style>
 @endsection
 @section('scripts')
     <script>
         $(document).ready(function() {
 
             let url = location.href;
-            $('#search-time').val('');
-            $('.group-item-2').hide();
-            $('.group-item-1').hide();
 
             let group;
+
+            $('.check').val('');
+            $('.group-item-2').hide();
+            $('.group-item-1').hide();
+            $('#search-time').val('');
+            $('#search-table').val('');
+            $('#search-date').val('');
 
             function getDate(group_block){
                 let block = '.search-date';
@@ -159,73 +177,56 @@
                 $(block).val('');
             }
 
+            $('.check').change(function(){
 
+                let block = $(this)[0].dataset.block
+                let id    = $(this)[0].dataset.client
+                let val   = $(this).val()
+
+                axios.put(`${url}/${id}`, {value: val})
+                    .then(response => {
+                        console.log(response);
+                    })
+
+                $(block).hide(500);
+
+            });
 
             $('body').on('click', '#group-1', function(){
+                    $('#fil').prop('disabled', false);
 
+                    group = '.group-item-1';
 
                     $('.title').text('Дети 4-6 лет');
                     $('.group-item-1').show(500);
                     $('.group-item-2').hide(500);
                     $('.reset').val('.group-item-1');
-                    group = '.group-item-1';
 
                     getDate('.group-item-1');
 
             });
 
             $('body').on('click', '#group-2', function(){
+                    $('#fil').prop('disabled', false);
 
+                    group = '.group-item-2';
 
                     $('.title').text('Дети 7-14 лет');
                     $('.group-item-2').show(500);
                     $('.group-item-1').hide(500);
-                    group = '.group-item-2';
+
                     $('.reset').val('.group-item-2');
 
                     getDate('.group-item-2');
             });
-
-            $('.search-date').change(function(){
-                let ref = $(this).val();
-                let group_class = $(this)[0].dataset.group;
-
-                $(group_class).each(function(index, value){
-                    let id   = "#"+$(value)[0].id;
-                    let date = $(id + ' .date').text().trim();
-
-                    if(date != ref){
-                        $(value).hide();
-                    }else{
-                        $(value).show();
-                    }
-                });
-            })
 
             $('table').each(function(index, value){
                 let _this = $(value)[0].childElementCount;
             });
 
 
-            $('body').on('click', '.del', function(){
+            // Search block
 
-                if(! confirm('Удалить?'))
-                    return 0;
-
-                let block = $(this)[0].dataset.block;
-
-                let id = $(this).val();
-
-                axios.delete(url + '/' + id)
-                .then(function(res){
-                    console.log(res);
-                })
-                .catch(function(res){
-                    console.log(res);
-                });
-
-                $(block).remove();
-            });
 
             $('body').on('click', '.reset', function(){
                 $('tbody tr').hide(500);
@@ -313,6 +314,9 @@
                 });
 
             });
+
+            // End search block
+
         });
     </script>
 @endsection

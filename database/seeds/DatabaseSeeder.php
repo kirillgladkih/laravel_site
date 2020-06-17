@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
 
       DB::table('users')->insert([
-          'phone'   => '79028081653',
+          'phone'   => '89028081653',
           'password'  => Hash::make('12345678')
       ]);
 
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
       DB::table('groups')->insert([
         'about' => '7-14 лет'
       ]);
-      
+
         $days = ["",
           "Пн","Вт","Ср",
           "Чт","Пт","Сб","Вс"];
@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
             DB::table('days')->insert([
               'day' => $days[$n]
             ]);
-            
+
         for($i = 1; $i <= 2; $i++){
            $group = $i;
             $day = $n;
@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
                     'group_id' => $group,
                     'day_id' => $day
                 ]);
-              } 
+              }
            }
         }
      }

@@ -20,22 +20,26 @@
     <title>@yield('title')</title>
   </head>
   <body>
+
     <div class="" id="wrapper">
       <div id="page-content-wrapper">
         <div class="container-fluid p-0 pl-3 pr-3">
             <div class="login-form d-flex justify-content-center col-12 ">
                   <form method="POST" class="col-12 col-md-6 bg-light" action="{{ route('login') }}">
                     @csrf
-                    
-                    {{-- <div class="alert-danger col-12 p-2 mt-3">
-                      @foreach ($errors->all() as $value)
-                          <h5 class="text-center">{{ $value }}</h5>
-                      @endforeach
-                    </div>
-                    @endif --}}
+
+
+                    @if($errors->any())
+                        <div class="alert-danger col-12 p-2 mt-3">
+                            @foreach ($errors->all() as $error)
+                                <h5>{{ $error }}</h5>
+                            @endforeach
+                        </div>
+                    @endif
+
                     <h2 class="text-center pt-3 pb-3" style="color:#66666">Авторизация</h2>
                     <div class="form-group">
-                      <input type="text" class="form-control p-4"placeholder="телефон" name='phone' value="{{ old('phone') }}" required>
+                      <input type="text" class="form-control p-4"placeholder="телефон" name='phone' value="{{ old('phone') }}" required id="phone">
                     </div>
                     <div class="form-group">
                       <input type="password" class="form-control p-4" placeholder="пароль" name="password" required>
@@ -45,7 +49,7 @@
                     </div>
                   </form>
             </div>
-        </div>  
+        </div>
       </div>
       <!-- /#page-content-wrapper -->
     </div>
@@ -54,15 +58,21 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js" integrity="sha256-bd8XIKzrtyJ1O5Sh3Xp3GiuMIzWC42ZekvrMMD4GxRg=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js" integrity="sha256-yE5LLp5HSQ/z+hJeCqkz9hdjNkk1jaiGG0tDCraumnA=" crossorigin="anonymous"></script>
     <!-- Menu Toggle Script -->
     <script>
-      $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
+      $(document).ready(function(){
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+
+        $("#phone").mask("89999999999");
+
       });
- 
+
     </script>
     @yield('scripts')
     </body>
